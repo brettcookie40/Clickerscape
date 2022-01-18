@@ -40,7 +40,7 @@ def generate_nugget(buttons, gameDisplay):
     start = 1
     end = 9696
     x = random.randint(start,end)
-    # if x > 8000:
+    # if x > 8500:
     if x >= 696 and x <= 721:
         print("Ooooh! A Golden Nugget!")
         return True
@@ -92,6 +92,7 @@ def main_loop():
             if(dt > 10000): #Remove nugget after 10 seconds
                 print("You were too slow!")
                 is_showing_nugget = False
+                gameDisplay.fill(grey)
                 dt = 0
         else:
             dt = dt + clock.get_time()
@@ -155,6 +156,8 @@ def main_loop():
                     print("You Beat the game!")
                     game_running = False
 
+        gameDisplay.fill(grey)
+
         #Draw stuff
         for button in buttons:
             if(button == 'clicker_button'):
@@ -167,14 +170,24 @@ def main_loop():
                 pygame.draw.rect(gameDisplay, yellow, buttons[button])
 
         DrawText("Clicker Scape", black, white, 400, 100, 50)
-        DrawText("You have " + str(f'{coins:.2f}') + " coins", black, white, 150, 50, 20)
-        DrawText("Upgrade clicker " + str(cost), black, white, 650, 270, 20)
-        DrawText("Buy auto clicker " + str(cost2), black, white, 150, 350, 20)
+        DrawText("Upgrade Clicker " + str(cost), black, white, 650, 270, 20)
+        DrawText("Buy Auto Clicker " + str(cost2), black, white, 150, 350, 20)
         DrawText("Double Up Multiplier! " + str(cost3), black, white, 400, 550, 20)
         DrawText("Version: " + ver, black, white, 650, 50, 20)
         DrawText("Auto Click Multiplier: " + str(autog), black, white, 150, 370, 20)
-        DrawText("Clicker Multiplier: " + str(round(mong, 2)), black, white, 650, 290, 20)
+        DrawText("Clicker Value: " + str(round(mong, 2)), black, white, 650, 290, 20)
+        
 
+        if(coins < 50000):
+            DrawText("You have " + str(f'{coins:.2f}') + " coins ", black, white, 150, 50, 20)
+        elif(coins >= 50000 and coins < 300000):
+            DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", black, white, 150, 50, 20)
+        elif(coins >= 300000 and coins < 1000000):
+            DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", black, white, 150, 50, 20)
+            DrawText("Millionaire!!!", black, white, 150, 70, 15 )
+        elif(coins >= 1000000 and coins < 1000000000):
+            DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", black, white, 150, 50, 20)
+            DrawText("Billionaire!!!@##$%&$%#@", black, white, 150, 70, 15 )
         pygame.display.update()
         clock.tick(60)                        
 

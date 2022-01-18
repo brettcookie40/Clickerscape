@@ -187,6 +187,8 @@ def main_loop():
             DrawText("Millionaire!!!", black, white, 150, 70, 15 )
         elif(coins >= 1000000 and coins < 1000000000):
             DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", black, white, 150, 50, 20)
+            DrawText("Millionaire!!!", black, white, 150, 70, 15 )
+        elif(coins >= 1000000000 and coins < 1000000000000):
             DrawText("Billionaire!!!@##$%&$%#@", black, white, 150, 70, 15 )
         pygame.display.update()
         clock.tick(60)                        

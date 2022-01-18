@@ -144,7 +144,7 @@ def main_loop():
                                         cost3 = round(cost3, 0)
                                 # print(button)
                             elif(button == 'golden_nugget' and is_showing_nugget == True):
-                                coins += 30000
+                                coins += 30000 + round((coins * .1), 0)
                                 is_showing_nugget = False
                                 gameDisplay.fill(grey)
                             else:
@@ -184,12 +184,12 @@ def main_loop():
             DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", black, white, 150, 50, 20)
         elif(coins >= 300000 and coins < 1000000):
             DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", black, white, 150, 50, 20)
-            DrawText("Millionaire!!!", black, white, 150, 70, 15 )
+            DrawText("Keep Dreamin'!", black, white, 150, 70, 15 )
         elif(coins >= 1000000 and coins < 1000000000):
             DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", black, white, 150, 50, 20)
-            DrawText("Millionaire!!!", black, white, 150, 70, 15 )
+            DrawText("Woo Millionaire!!!", black, white, 150, 70, 15 )
         elif(coins >= 1000000000 and coins < 1000000000000):
-            DrawText("Billionaire!!!@##$%&$%#@", black, white, 150, 70, 15 )
+            DrawText("OMG Billionaire!!!@##$%&$%#@", black, white, 150, 70, 15 )
         pygame.display.update()
         clock.tick(60)                        
 

@@ -144,7 +144,7 @@ def main_loop():
                                         cost3 = round(cost3, 0)
                                 # print(button)
                             elif(button == 'golden_nugget' and is_showing_nugget == True):
-                                coins += 30000 + round((coins * .1), 0)
+                                coins += 30000 + round((coins * .2), 0)
                                 is_showing_nugget = False
                                 gameDisplay.fill(grey)
                             else:

@@ -81,11 +81,28 @@ def main_loop():
     cost = 10
     cost2 = 25
     cost3 = 500
-
+    elapsed_time_milli = 0
+    elapsed_time_sec = 0
+    elapsed_time_min = 0
+    elapsed_time_hour = 0
     game_running = True
     # rt = RepeatedTimer(1, generate_nugget, buttons, gameDisplay)
 
     while game_running:
+        elapsed_time_milli = elapsed_time_milli + clock.get_time() # milliseconds
+        # print(elapsed_time_milli)
+
+        if(elapsed_time_min > 59):
+            elapsed_time_min = 0
+            elapsed_time_hour = elapsed_time_hour + 1
+        if(elapsed_time_sec > 59):
+            elapsed_time_sec = 0
+            elapsed_time_min = elapsed_time_min + 1
+
+        if(elapsed_time_milli > 1000):
+            elapsed_time_sec = round(elapsed_time_sec + (elapsed_time_milli / 1000), 0)
+            elapsed_time_milli = 0
+
         #golden nuggets
         if(is_showing_nugget == True):
             dt = dt + clock.get_time()
@@ -174,6 +191,7 @@ def main_loop():
         DrawText("Buy Auto Clicker " + str(cost2), black, white, 150, 350, 20)
         DrawText("Double Up Multiplier! " + str(cost3), black, white, 400, 550, 20)
         DrawText("Version: " + ver, black, white, 650, 50, 20)
+        DrawText("Hours: " + str(elapsed_time_hour) + " Minutes: " + str(elapsed_time_min) + " Seconds: " + str(elapsed_time_sec), black, white, 620, 140, 20)
         DrawText("Auto Click Multiplier: " + str(autog), black, white, 150, 370, 20)
         DrawText("Clicker Value: " + str(round(mong, 2)), black, white, 650, 290, 20)
         

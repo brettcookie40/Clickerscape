@@ -152,7 +152,7 @@ def main_loop():
                                 pass
                             
 
-                if coins == 2147483647:
+                if coins >= 112147483647:
                     print("You Beat the game!")
                     game_running = False
 

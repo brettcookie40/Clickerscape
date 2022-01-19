@@ -20,6 +20,7 @@ black = (0, 0, 0)
 grey = (128, 128, 128)
 light_grey = (224, 224, 224)
 yellow = ((255,255,0))
+gold = ((255, 204, 0))
 moon_glow = ((235,245,255))
 
 # creating display and caption
@@ -66,6 +67,7 @@ def main_loop():
     global color2
     global color3   
     global coins
+    clicker_color = moon_glow
     gameDisplay.fill(grey)
     dt = clock.get_time() #keeping track of time between previous tick check
     buttons = {
@@ -132,6 +134,7 @@ def main_loop():
                         if buttons[button].collidepoint(event.pos):
                             if(button == 'clicker_button'):
                                 coins += mong
+                                clicker_color = ((random.randint(0, 255) , random.randint(0, 255), random.randint(0, 255)))
                                 # print(button)
                             elif(button == 'upgrade_clicker_button'):
                                 if coins >= cost:
@@ -178,7 +181,7 @@ def main_loop():
         #Draw stuff
         for button in buttons:
             if(button == 'clicker_button'):
-                pygame.draw.rect(gameDisplay, moon_glow, buttons[button])
+                pygame.draw.rect(gameDisplay, clicker_color, buttons[button])
 
             elif(button != 'golden_nugget'):
                 pygame.draw.rect(gameDisplay, black, buttons[button])
@@ -186,28 +189,29 @@ def main_loop():
             if (button == 'golden_nugget' and is_showing_nugget == True):
                 pygame.draw.rect(gameDisplay, yellow, buttons[button])
 
-        DrawText("Clicker Scape", black, white, 400, 100, 50)
-        DrawText("Upgrade Clicker " + str(cost), black, white, 650, 270, 20)
-        DrawText("Buy Auto Clicker " + str(cost2), black, white, 150, 350, 20)
-        DrawText("Double Up Multiplier! " + str(cost3), black, white, 400, 550, 20)
-        DrawText("Version: " + ver, black, white, 650, 50, 20)
-        DrawText("Hours: " + str(elapsed_time_hour) + " Minutes: " + str(elapsed_time_min) + " Seconds: " + str(elapsed_time_sec), black, white, 620, 140, 20)
-        DrawText("Auto Click Multiplier: " + str(autog), black, white, 150, 370, 20)
-        DrawText("Clicker Value: " + str(round(mong, 2)), black, white, 650, 290, 20)
+        # DrawText("Clicker Scape", black, grey, 400, 100, 50)
+        DrawText("Upgrade Clicker " + str(cost), black, grey, 650, 270, 20)
+        DrawText("Buy Auto Clicker " + str(cost2), black, grey, 150, 350, 20)
+        DrawText("Double Up Multiplier! " + str(cost3), black, grey, 400, 550, 20)
+        DrawText("Version: " + ver, black, grey, 650, 50, 20)
+        DrawText("Hours: " + str(elapsed_time_hour) + " Minutes: " + str(elapsed_time_min) + " Seconds: " + str(elapsed_time_sec), black, grey, 620, 140, 20)
+        DrawText("Auto Click Value: " + str(autog), black, grey, 150, 370, 20)
+        DrawText("Clicker Value: " + str(round(mong, 2)), black, grey, 650, 290, 20)
         
 
         if(coins < 50000):
-            DrawText("You have " + str(f'{coins:.2f}') + " coins ", black, white, 150, 50, 20)
+            DrawText("You have " + str(f'{coins:.2f}') + " coins ", gold,  grey, 150, 50, 20)
         elif(coins >= 50000 and coins < 300000):
-            DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", black, white, 150, 50, 20)
+            DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", gold,  grey, 150, 50, 20)
         elif(coins >= 300000 and coins < 1000000):
-            DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", black, white, 150, 50, 20)
-            DrawText("Keep Dreamin'!", black, white, 150, 70, 15 )
+            DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", gold,  grey, 150, 50, 20)
+            DrawText("Keep Dreamin'!", gold, grey, 150, 70, 15 )
         elif(coins >= 1000000 and coins < 1000000000):
-            DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", black, white, 150, 50, 20)
-            DrawText("Woo Millionaire!!!", black, white, 150, 70, 15 )
+            DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", gold,  grey, 150, 50, 20)
+            DrawText("Woo Millionaire!!!", gold, grey, 150, 70, 15 )
         elif(coins >= 1000000000 and coins < 1000000000000):
-            DrawText("OMG Billionaire!!!@##$%&$%#@", black, white, 150, 70, 15 )
+            DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", gold,  grey, 150, 50, 20)
+            DrawText("OMG Billionaire!!!@##$%&$%#@", gold, grey, 150, 70, 15 )
         pygame.display.update()
         clock.tick(60)                        
 

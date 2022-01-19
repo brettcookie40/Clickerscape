@@ -139,16 +139,22 @@ def main_loop():
                             elif(button == 'upgrade_clicker_button'):
                                 if coins >= cost:
                                     coins = coins - cost
-                                    cost = cost * 1.75
-                                    mong = mong * 1.5
+                                    cost = cost * 2.5
+                                    mong = mong * 2
                                     cost = round(cost, 0)
                                 # print(button)
                             elif(button == 'auto_clicker_button'):
                                 if coins >= cost2:
-                                    coins = coins - cost2
-                                    cost2 = cost2 * 1.5
-                                    autog = autog + 0.5
-                                    cost2 = round(cost2, 0)
+                                    if(autog == 0):
+                                        coins = coins - cost2
+                                        cost2 = cost2 * 1.75
+                                        autog = autog + 0.5
+                                        cost2 = round(cost2, 0)
+                                    else:    
+                                        coins = coins - cost2
+                                        cost2 = cost2 * 1.85
+                                        autog = round(autog + (autog * 0.30),2)
+                                        cost2 = round(cost2, 0)
                                 # print(button)
                             elif(button == 'double_up_button'):
                                 if(coins >= cost3):

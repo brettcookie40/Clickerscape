@@ -10,7 +10,7 @@ pygame.init()
 
 #defining variables
 clock = pygame.time.Clock()
-ver = "0.0.0"
+ver = "0.0.1"
 autog = 0
 coins = 0
 display_width = 800

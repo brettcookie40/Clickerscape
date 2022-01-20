@@ -246,7 +246,7 @@ def main_loop():
         DrawText("Upgrade Clicker " + str(cost), black, grey, 650, 270, 20)
         DrawText("Buy Auto Clicker " + str(cost2), black, grey, 150, 350, 20)
         DrawText("Double Up Multiplier! " + str(cost3), black, grey, 400, 550, 20)
-        DrawText("Version: " + ver, black, grey, 70, 15, 20)
+        DrawText("Version: " + ver, black, grey, 35, 5, 10)
         DrawText("Skills", gold, grey, 70, 75, 25) #10, 60 120, 30
         draw_elapsed_time(elapsed_time_sec, elapsed_time_min, elapsed_time_hour)
 

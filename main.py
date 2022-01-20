@@ -24,8 +24,8 @@ gold = ((255, 204, 0))
 moon_glow = ((235,245,255))
 
 # creating display and caption
-gameDisplay = pygame.display.set_mode((display_width, display_height));
-pygame.display.set_caption("ClickerScape");
+gameDisplay = pygame.display.set_mode((display_width, display_height))
+pygame.display.set_caption("ClickerScape")
 
 # define functions
 def autoclick():
@@ -35,7 +35,7 @@ def autoclick():
     coins = coins + autog
 
 def double_boost(autog):
-    autog = autog * 2;
+    autog = autog * 2
 
 def generate_nugget(buttons, gameDisplay):
     start = 1
@@ -58,6 +58,55 @@ def DrawText(text, Textcolor, Rectcolor, x, y, fsize):
 def rectangle(display, color, x, y, w, h):
     pygame.draw.rect(display, color, (x, y, w, h))
 
+def update_elapsed_time(elapsed_time_milli, elapsed_time_sec, elapsed_time_min, elapsed_time_hour):
+    elapsed_time_milli = elapsed_time_milli + clock.get_time() # milliseconds
+    # print(elapsed_time_milli)
+
+    if(elapsed_time_min > 59):
+        elapsed_time_min = 0
+        elapsed_time_hour = elapsed_time_hour + 1
+    if(elapsed_time_sec > 59):
+        elapsed_time_sec = 0
+        elapsed_time_min = elapsed_time_min + 1
+
+    if(elapsed_time_milli > 1000):
+        # elapsed_time_sec = round(elapsed_time_sec + (elapsed_time_milli / 1000), 0)
+        elapsed_time_sec = elapsed_time_sec + (elapsed_time_milli / 1000)
+        elapsed_time_sec = int(elapsed_time_sec - (elapsed_time_sec % 1))
+        elapsed_time_milli = 0
+
+    return elapsed_time_milli, elapsed_time_sec, elapsed_time_min, elapsed_time_hour
+
+def draw_elapsed_time(elapsed_time_sec, elapsed_time_min, elapsed_time_hour):
+    # == == ==
+    if(len(str(elapsed_time_sec)) == 1 and len(str(elapsed_time_min)) == 1 and len(str(elapsed_time_hour)) == 1):
+        DrawText("0" + str(elapsed_time_hour) + ":0" + str(elapsed_time_min) + ":0" + str(elapsed_time_sec), black, grey, 720, 15, 20)
+    # == == >
+    elif(len(str(elapsed_time_sec)) == 1 and len(str(elapsed_time_min)) == 1 and len(str(elapsed_time_hour)) > 1):
+        DrawText(str(elapsed_time_hour) + ":0" + str(elapsed_time_min) + ":0" + str(elapsed_time_sec), black, grey, 720, 15, 20)
+    # == > >
+    elif(len(str(elapsed_time_sec)) == 1 and len(str(elapsed_time_min)) > 1 and len(str(elapsed_time_hour)) > 1):
+        DrawText(str(elapsed_time_hour) + ":" + str(elapsed_time_min) + ":0" + str(elapsed_time_sec), black, grey, 720, 15, 20)
+    # > > >
+    elif(len(str(elapsed_time_sec)) > 1 and len(str(elapsed_time_min)) > 1 and len(str(elapsed_time_hour)) > 1):
+        DrawText(str(elapsed_time_hour) + ":" + str(elapsed_time_min) + ":" + str(elapsed_time_sec), black, grey, 720, 15, 20)
+    # > == >
+    elif(len(str(elapsed_time_sec)) > 1 and len(str(elapsed_time_min)) == 1 and len(str(elapsed_time_hour)) > 1):
+        DrawText(str(elapsed_time_hour) + ":0" + str(elapsed_time_min) + ":" + str(elapsed_time_sec), black, grey, 720, 15, 20)
+    # > > ==
+    elif(len(str(elapsed_time_sec)) > 1 and len(str(elapsed_time_min)) > 1 and len(str(elapsed_time_hour)) == 1):
+        DrawText("0"+ str(elapsed_time_hour) + ":" + str(elapsed_time_min) + ":" + str(elapsed_time_sec), black, grey, 720, 15, 20)
+    # > == ==
+    elif(len(str(elapsed_time_sec)) > 1 and len(str(elapsed_time_min)) == 1 and len(str(elapsed_time_hour)) == 1):
+        DrawText("0"+ str(elapsed_time_hour) + ":0" + str(elapsed_time_min) + ":" + str(elapsed_time_sec), black, grey, 720, 15, 20)
+    # == > ==
+    elif(len(str(elapsed_time_sec)) == 1 and len(str(elapsed_time_min)) > 1 and len(str(elapsed_time_hour)) == 1):
+        DrawText("0"+ str(elapsed_time_hour) + ":" + str(elapsed_time_min) + ":0" + str(elapsed_time_sec), black, grey, 720, 15, 20)
+
+    # DrawText("Hours: " + str(elapsed_time_hour), black, grey, 720, 15, 20)
+    # DrawText("Minutes: " + str(elapsed_time_min), black, grey, 730, 35, 20)
+    # DrawText("Seconds: " + str(elapsed_time_sec), black, grey, 730, 55, 20)
+
 def main_loop():
     #The goods
     global clock
@@ -75,9 +124,15 @@ def main_loop():
         'clicker_button' : pygame.Rect(350, 250, 100, 100),
         'upgrade_clicker_button' : pygame.Rect(550, 317, 200, 300),
         'double_up_button' : pygame.Rect(327, 571, 148, 20),
-        'golden_nugget' : pygame.Rect(130, 200, 50, 50)
+        'golden_nugget' : pygame.Rect(130, 200, 50, 50),
+        'skills_button': pygame.Rect(10, 60, 120, 30),
         }
-    
+    coin_text_info = {
+        'x-coord': 400,
+        'y-coord': 50,
+        'height': 20,
+    }
+    game_running = True
     is_showing_nugget = False
     mong = 1
     cost = 10
@@ -87,23 +142,12 @@ def main_loop():
     elapsed_time_sec = 0
     elapsed_time_min = 0
     elapsed_time_hour = 0
-    game_running = True
+    
     # rt = RepeatedTimer(1, generate_nugget, buttons, gameDisplay)
 
     while game_running:
-        elapsed_time_milli = elapsed_time_milli + clock.get_time() # milliseconds
-        # print(elapsed_time_milli)
-
-        if(elapsed_time_min > 59):
-            elapsed_time_min = 0
-            elapsed_time_hour = elapsed_time_hour + 1
-        if(elapsed_time_sec > 59):
-            elapsed_time_sec = 0
-            elapsed_time_min = elapsed_time_min + 1
-
-        if(elapsed_time_milli > 1000):
-            elapsed_time_sec = round(elapsed_time_sec + (elapsed_time_milli / 1000), 0)
-            elapsed_time_milli = 0
+        #updating time values
+        elapsed_time_milli, elapsed_time_sec, elapsed_time_min, elapsed_time_hour = update_elapsed_time(elapsed_time_milli, elapsed_time_sec, elapsed_time_min, elapsed_time_hour)
 
         #golden nuggets
         if(is_showing_nugget == True):
@@ -190,7 +234,10 @@ def main_loop():
                 pygame.draw.rect(gameDisplay, clicker_color, buttons[button])
 
             elif(button != 'golden_nugget'):
-                pygame.draw.rect(gameDisplay, black, buttons[button])
+                if(button == 'skills_button'):
+                    pygame.draw.rect(gameDisplay, black, buttons[button], 2)
+                else:
+                    pygame.draw.rect(gameDisplay, black, buttons[button])
 
             if (button == 'golden_nugget' and is_showing_nugget == True):
                 pygame.draw.rect(gameDisplay, yellow, buttons[button])
@@ -199,25 +246,27 @@ def main_loop():
         DrawText("Upgrade Clicker " + str(cost), black, grey, 650, 270, 20)
         DrawText("Buy Auto Clicker " + str(cost2), black, grey, 150, 350, 20)
         DrawText("Double Up Multiplier! " + str(cost3), black, grey, 400, 550, 20)
-        DrawText("Version: " + ver, black, grey, 650, 50, 20)
-        DrawText("Hours: " + str(elapsed_time_hour) + " Minutes: " + str(elapsed_time_min) + " Seconds: " + str(elapsed_time_sec), black, grey, 620, 140, 20)
+        DrawText("Version: " + ver, black, grey, 70, 15, 20)
+        DrawText("Skills", gold, grey, 70, 75, 25) #10, 60 120, 30
+        draw_elapsed_time(elapsed_time_sec, elapsed_time_min, elapsed_time_hour)
+
         DrawText("Auto Click Value: " + str(autog), black, grey, 150, 370, 20)
         DrawText("Clicker Value: " + str(round(mong, 2)), black, grey, 650, 290, 20)
         
 
         if(coins < 50000):
-            DrawText("You have " + str(f'{coins:.2f}') + " coins ", gold,  grey, 150, 50, 20)
+            DrawText("You have " + str(f'{coins:.2f}') + " coins ", gold,  grey, coin_text_info['x-coord'], coin_text_info['y-coord'], coin_text_info['height'])
         elif(coins >= 50000 and coins < 300000):
-            DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", gold,  grey, 150, 50, 20)
+            DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", gold,  grey, coin_text_info['x-coord'], coin_text_info['y-coord'], coin_text_info['height'])
         elif(coins >= 300000 and coins < 1000000):
-            DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", gold,  grey, 150, 50, 20)
-            DrawText("Keep Dreamin'!", gold, grey, 150, 70, 15 )
+            DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", gold,  grey, coin_text_info['x-coord'], coin_text_info['y-coord'], coin_text_info['height'])
+            DrawText("Keep Dreamin'!", gold, grey, coin_text_info['x-coord'], (coin_text_info['y-coord'] + coin_text_info['height']), 15 )
         elif(coins >= 1000000 and coins < 1000000000):
-            DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", gold,  grey, 150, 50, 20)
-            DrawText("Woo Millionaire!!!", gold, grey, 150, 70, 15 )
+            DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", gold,  grey, coin_text_info['x-coord'], coin_text_info['y-coord'], coin_text_info['height'])
+            DrawText("Woo Millionaire!!!", gold, grey, coin_text_info['x-coord'], (coin_text_info['y-coord'] + coin_text_info['height']), 15 )
         elif(coins >= 1000000000 and coins < 1000000000000):
-            DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", gold,  grey, 150, 50, 20)
-            DrawText("OMG Billionaire!!!@##$%&$%#@", gold, grey, 150, 70, 15 )
+            DrawText("You have " + str(f'{coins:.2f}') + " coins!!!", gold,  grey, coin_text_info['x-coord'], coin_text_info['y-coord'], coin_text_info['height'])
+            DrawText("OMG Billionaire!!!@##$%&$%#@", gold, grey, coin_text_info['x-coord'], (coin_text_info['y-coord'] + coin_text_info['height']), 15 )
         pygame.display.update()
         clock.tick(60)                        
 
